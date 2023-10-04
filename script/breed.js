@@ -59,9 +59,15 @@ function deleteBreed(index) {
     for (let i = 0; i < breedArr.length; i++) {
       if (breedArr[i].breed === index) {
         breedArr.splice(i, 1);
+        break;
       }
     }
   }
+
+  // sắp xếp lại mảng sau khi bị xoá
+  breedArr.sort(function (a, b) {
+    return a.breed.localeCompare(b.breed);
+  });
 
   saveToStorage("breedArr", breedArr);
   localStorage.setItem("breedArr", JSON.stringify(breedArr));
