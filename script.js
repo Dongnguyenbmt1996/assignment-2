@@ -15,7 +15,9 @@ const sterilizedInput = document.getElementById("input-sterilized");
 const healthyBtn = document.getElementById("healthy-btn");
 const Calbmibtn = document.getElementById("cal-bmi-btn");
 
+// const petArr = getFromStorage("petArr") || [];
 const petArr = [];
+const breedArr = getFromStorage("breedArr") || [];
 let data = {};
 let tableBodyEl = document.getElementById("tbody");
 
@@ -31,7 +33,7 @@ const data1 = {
   vaccinated: true,
   dewormed: true,
   sterilized: true,
-  bmi: "?",
+  // bmi: "?",
   date: new Date(2022, 2, 1),
 };
 
@@ -47,7 +49,7 @@ const data2 = {
   vaccinated: false,
   dewormed: false,
   sterilized: false,
-  bmi: "?",
+  // bmi: "?",
   date: new Date(2022, 2, 2),
 };
 
@@ -138,7 +140,7 @@ function renderTableData(petArr) {
                   ? "bi-check-circle-fill"
                   : "bi-x-circle-fill"
               }"></i></td>
-              <td>${petArr[i].bmi}</td>
+              
 							<td>
               ${petArr[i].date.getDate()}/${
       petArr[i].date.getMonth() + 1
@@ -237,12 +239,8 @@ function deletePet(petId) {
   const isDeleted = confirm("Are you sure?");
   if (isDeleted) {
     for (let i = 0; i < petArr.length; i++) {
-      if (petId === petArr[i].id) {
-        petArr.splice(i, 1);
-        saveToStorage("petArr", petArr);
-        renderTableData(petArr);
-        break;
-      }
+      petArr.splice(i, 1);
+      renderTableData(petArr);
     }
   }
 }
@@ -271,12 +269,12 @@ healthyBtn.addEventListener("click", function () {
 });
 
 // Tính chủ số BMI
-// Calbmibtn.addEventListener("click", function () {
-//   for (let i = 0; i < petArr.length; i++) {
-//     petArr[i].bmi =
-//       petArr[i].type === "Dog"
-//         ? ((petArr[i].weight * 703) / petArr[i].length ** 2).toFixed(2)
-//         : ((petArr[i].weight * 886) / petArr[i].length ** 2).toFixed(2);
-//   }
-//   renderTableData(petArr);
-// });
+Calbmibtn.addEventListener("click", function () {
+  for (let i = 0; i < petArr.length; i++) {
+    petArr[i].bmi =
+      petArr[i].type === "Dog"
+        ? ((petArr[i].weight * 703) / petArr[i].length ** 2).toFixed(2)
+        : ((petArr[i].weight * 886) / petArr[i].length ** 2).toFixed(2);
+  }
+  renderTableData(petArr);
+});
