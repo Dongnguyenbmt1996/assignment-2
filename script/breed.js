@@ -21,9 +21,7 @@ function renderBreedTable(breedArr) {
     <th scope="col">${i + 1}</th>
     <th scope="col">${breedArr[i].breed}</th>
     <th scope="col">${breedArr[i].type}</th>
-    <th scope="col"><button onclick="deleteBreed('${
-      breedArr[i].breed
-    }')" type="button" class="btn btn-danger">Delete</button></th>`;
+    <th scope="col"><button onclick="deleteBreed('${i}')" type="button" class="btn btn-danger">Delete</button></th>`;
     tableBreed.appendChild(row);
   }
 }
@@ -56,12 +54,7 @@ submitBtnBreed.addEventListener("click", function () {
 //Xoá breed
 function deleteBreed(index) {
   if (confirm("Bạn có chắc chắn muốn xoá Breed này?")) {
-    for (let i = 0; i < breedArr.length; i++) {
-      if (breedArr[i].breed === index) {
-        breedArr.splice(i, 1);
-        break;
-      }
-    }
+    breedArr.splice(index, 1);
   }
 
   // sắp xếp lại mảng sau khi bị xoá
