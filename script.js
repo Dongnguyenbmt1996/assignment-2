@@ -15,17 +15,16 @@ const sterilizedInput = document.getElementById("input-sterilized");
 const healthyBtn = document.getElementById("healthy-btn");
 const Calbmibtn = document.getElementById("cal-bmi-btn");
 
-// const petArr = getFromStorage("petArr") || [];
-const petArr = [];
-const breedArr = getFromStorage("breedArr") || [];
-let data = {};
 let tableBodyEl = document.getElementById("tbody");
+
+const petArr = getFromStorage("petArr") || [];
+const breedArr = getFromStorage("breedArr") || [];
 
 const data1 = {
   id: "P001",
   name: "Tom",
   age: 3,
-  type: "cat",
+  type: "Cat",
   weight: 5,
   length: 50,
   color: "red",
@@ -53,9 +52,10 @@ const data2 = {
   date: new Date(2022, 2, 2),
 };
 
-//sự kiện chọn vào typeInput
+petArr.push(data1);
+petArr.push(data2);
 
-typeInput.addEventListener("click", renderBreed);
+// Sự kiện chọn vào typeInput
 function renderBreed() {
   breedInput.innerHTML = "<option>Select Breed</option>";
   const breedDogs = breedArr.filter((breeds) => breeds.type === "Dog");
@@ -74,11 +74,11 @@ function renderBreed() {
     });
   }
 }
+typeInput.addEventListener("click", renderBreed);
 
-// sự kiện click vào submit
-
+// Sự kiện click vào submit
 submitBtn.addEventListener("click", function () {
-  //1. lấy dữ liệu từ form input
+  //1. Lấy dữ liệu từ form input
   const data = {
     id: idInput.value,
     name: nameInput.value,
@@ -99,63 +99,66 @@ submitBtn.addEventListener("click", function () {
   console.log(validate);
   if (validate) {
     petArr.push(data);
-    //3. đưa dữ liệu vào danh sách
+    //3. Đưa dữ liệu vào danh sách
     renderTableData(petArr);
-    //4. hiển thị danh sách thú cưng
+    //4. Hiển thị danh sách thú cưng
     clearInput();
     //5. Xoá dữ liệu form input
   }
-  //dữ liệu đúng thực hiện 3,4,5
-  //dữ liệu sai hiện thông báo
+  // Dữ liệu đúng thực hiện 3,4,5
+  // Dữ liệu sai hiện thông báo
 });
-petArr.push(data1);
-petArr.push(data2);
-renderTableData(petArr);
-//Thêm dữ liệu nhập vào
+
+// Thêm dữ liệu nhập vào
 function renderTableData(petArr) {
   tableBodyEl.innerHTML = "";
   for (let i = 0; i < petArr.length; i++) {
     const row = document.createElement("tr");
     row.innerHTML = `
-              <th scope="row">${petArr[i].id}</th>
-							<td>${petArr[i].name}</td>
-							<td>${petArr[i].age}</td>
-							<td>${petArr[i].type}</td>
-							<td>${petArr[i].weight} kg</td>
-							<td>${petArr[i].length} cm</td>
-							<td>${petArr[i].breed}</td>
-							<td>
-								<i class="bi bi-square-fill" style="color: ${petArr[i].color}"></i>
-							</td>
-							<td><i class="bi ${
-                petArr[i].vaccinated
-                  ? "bi-check-circle-fill"
-                  : "bi-x-circle-fill"
-              }"></i></td>
-							<td><i class="bi ${
-                petArr[i].dewormed ? "bi-check-circle-fill" : "bi-x-circle-fill"
-              }"></i></td>
-							<td><i class="bi ${
-                petArr[i].sterilized
-                  ? "bi-check-circle-fill"
-                  : "bi-x-circle-fill"
-              }"></i></td>
-              
-							<td>
-              ${petArr[i].date.getDate()}/${
-      petArr[i].date.getMonth() + 1
-    }/${petArr[i].date.getFullYear()}
-              </td>
-							<td>
-	<button class="btn btn-danger" onclick="deletePet('${
-    petArr[i].id
-  }')">Delete</button>
-</td>
-            `;
+      <th scope="row">${petArr[i].id}</th>
+				<td>${petArr[i].name}</td>
+				<td>${petArr[i].age}</td>
+				<td>${petArr[i].type}</td>
+				<td>${petArr[i].weight} kg</td>
+				<td>${petArr[i].length} cm</td>
+				<td>${petArr[i].breed}</td>
+				<td>
+					<i class="bi bi-square-fill" style="color: ${petArr[i].color}"></i>
+				</td>
+				<td>
+          <i class="bi ${
+            petArr[i].vaccinated ? "bi-check-circle-fill" : "bi-x-circle-fill"
+          }"></i>
+        </td>
+				<td>
+          <i class="bi ${
+            petArr[i].dewormed ? "bi-check-circle-fill" : "bi-x-circle-fill"
+          }"></i>
+        </td>
+				<td>
+          <i class="bi ${
+            petArr[i].sterilized ? "bi-check-circle-fill" : "bi-x-circle-fill"
+          }"></i>
+        </td>
+				<td>
+          ${new Date(petArr[i].date).getDate()}/
+          ${new Date(petArr[i].date).getMonth() + 1}/
+          ${new Date(petArr[i].date).getFullYear()}
+        </td>
+				<td>
+	        <button 
+            class="btn btn-danger" 
+            onclick="deletePet('${i}')">Delete
+          </button>
+        </td>
+      `;
+
     tableBodyEl.appendChild(row);
   }
 }
-//Xoá bảng nhập dữ liệu
+renderTableData(petArr);
+
+// Xoá bảng nhập dữ liệu
 const clearInput = () => {
   idInput.value = "";
   nameInput.value = "";
@@ -170,7 +173,7 @@ const clearInput = () => {
   sterilizedInput.checked = false;
 };
 
-//Kiểm tra dữ liệu đầu vào
+// Kiểm tra dữ liệu đầu vào
 function validateData(data) {
   // Đảm bảo không có trường nào bị thiếu dữ lệu
   let isValidate = true;
@@ -199,7 +202,7 @@ function validateData(data) {
     isValidate = false;
   }
 
-  //Kiểm tra ID có phải duy nhất hay không?
+  // Kiểm tra ID có phải duy nhất hay không?
   for (let i = 0; i < petArr.length; i++) {
     if (data.id === petArr[i].id) {
       alert("ID must be unique!");
@@ -207,46 +210,44 @@ function validateData(data) {
       break;
     }
   }
-  //kiểm tra tuổi từ 1 đến 15
+  // Kiểm tra tuổi từ 1 đến 15
   if (data.gae < 1 || data.age > 15) {
     alert("Age must be between 1 and 15!");
     isValidate = false;
   }
-  //kiểm tra weight từ 1 đến 15
+  // Kiểm tra weight từ 1 đến 15
   if (data.weight < 1 || data.weight > 15) {
     alert("Weight must be between 1 and 15!");
     isValidate = false;
   }
-  //kiểm tra length  từ 1 đến 100
+  // Kiểm tra length  từ 1 đến 100
   if (data.length < 1 || data.length > 100) {
     alert("Length must be between 1 and 100!");
     isValidate = false;
   }
-  //kiểm tra chọn giá trị type
+  // Kiểm tra chọn giá trị type
   if (data.type === "Select Type") {
     alert("Please select Type!");
     isValidate = false;
   }
-  //kiểm tra chọn giá trị breed
+  // Kiểm tra chọn giá trị breed
   if (data.breed === "Select Breed") {
     alert("Please select Breed!");
     isValidate = false;
   }
   return isValidate;
 }
-//Xoá thú cưng ra khỏi danh sách
+
+// Xoá thú cưng ra khỏi danh sách
 function deletePet(petId) {
   const isDeleted = confirm("Are you sure?");
   if (isDeleted) {
-    for (let i = 0; i < petArr.length; i++) {
-      petArr.splice(i, 1);
-      renderTableData(petArr);
-    }
+    petArr.splice(petId, 1);
+    renderTableData(petArr);
   }
 }
 
-//Hiện thị thú cưng khoẻ mạnh
-
+// Hiện thị thú cưng khoẻ mạnh
 let healthyCheck = true;
 
 healthyBtn.addEventListener("click", function () {
@@ -269,12 +270,12 @@ healthyBtn.addEventListener("click", function () {
 });
 
 // Tính chủ số BMI
-Calbmibtn.addEventListener("click", function () {
-  for (let i = 0; i < petArr.length; i++) {
-    petArr[i].bmi =
-      petArr[i].type === "Dog"
-        ? ((petArr[i].weight * 703) / petArr[i].length ** 2).toFixed(2)
-        : ((petArr[i].weight * 886) / petArr[i].length ** 2).toFixed(2);
-  }
-  renderTableData(petArr);
-});
+// Calbmibtn.addEventListener("click", function () {
+//   for (let i = 0; i < petArr.length; i++) {
+//     petArr[i].bmi =
+//       petArr[i].type === "Dog"
+//         ? ((petArr[i].weight * 703) / petArr[i].length ** 2).toFixed(2)
+//         : ((petArr[i].weight * 886) / petArr[i].length ** 2).toFixed(2);
+//   }
+//   renderTableData(petArr);
+// });
