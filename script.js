@@ -52,8 +52,8 @@ const data2 = {
   date: new Date(2022, 2, 2),
 };
 
-petArr.push(data1);
-petArr.push(data2);
+// petArr.push(data1);
+// petArr.push(data2);
 
 // Sự kiện chọn vào typeInput
 function renderBreed() {
@@ -98,12 +98,14 @@ submitBtn.addEventListener("click", function () {
   const validate = validateData(data);
   console.log(validate);
   if (validate) {
-    petArr.push(data);
     //3. Đưa dữ liệu vào danh sách
-    renderTableData(petArr);
+    petArr.push(data);
     //4. Hiển thị danh sách thú cưng
-    clearInput();
+    renderTableData(petArr);
     //5. Xoá dữ liệu form input
+    clearInput();
+    //6. Lưu dữ liệu xuống local storage
+    saveToStorage("petArr", petArr);
   }
   // Dữ liệu đúng thực hiện 3,4,5
   // Dữ liệu sai hiện thông báo
@@ -141,9 +143,9 @@ function renderTableData(petArr) {
           }"></i>
         </td>
 				<td>
-          ${new Date(petArr[i].date).getDate()}/
-          ${new Date(petArr[i].date).getMonth() + 1}/
-          ${new Date(petArr[i].date).getFullYear()}
+          ${new Date(petArr[i].date).getDate()}/${
+      new Date(petArr[i].date).getMonth() + 1
+    }/${new Date(petArr[i].date).getFullYear()}
         </td>
 				<td>
 	        <button 

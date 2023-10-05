@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 const submitBtn = document.getElementById("submit-btn");
 const idInput = document.getElementById("input-id");
 const nameInput = document.getElementById("input-name");
@@ -26,7 +26,8 @@ const renderPetEdit = function (petArr) {
     //Tạo 1 element ở trong table
     let row = document.createElement("tr");
     //Lưu ý việc sử dụng onclick ở đây là 1 global scope
-    row.innerHTML = `<th scope="row">${petArr[i].id}</th>
+    row.innerHTML = `
+      <th scope="row">${petArr[i].id}</th>
       <td>${petArr[i].name}</td>
       <td>${petArr[i].age}</td>
       <td>${petArr[i].type}</td>
@@ -34,26 +35,35 @@ const renderPetEdit = function (petArr) {
       <td>${petArr[i].length} cm</td>
       <td>${petArr[i].breed}</td>
       <td>
-      <i class="bi bi-square-fill" style="color: ${petArr[i].color}"></i>
+        <i class="bi bi-square-fill" style="color: ${petArr[i].color}"></i>
       </td>
-      <td><i class="bi ${
-        petArr[i].vaccinated ? "bi-check-circle-fill" : "bi-x-circle-fill"
-      }"></i></td>
-      <td><i class="bi ${
-        petArr[i].dewormed ? "bi-check-circle-fill" : "bi-x-circle-fill"
-      }"></i></td>
-      <td><i class="bi ${
-        petArr[i].sterilized ? "bi-check-circle-fill" : "bi-x-circle-fill"
-      }"></i></td>
       <td>
-      ${petArr[i].date}
+        <i class="bi ${
+          petArr[i].vaccinated ? "bi-check-circle-fill" : "bi-x-circle-fill"
+        }"></i>
       </td>
-
       <td>
-      <button type="button" class="btn btn-warning" 
-      onclick="editPet('${petArr[i].id}')"
-      >Edit</button>
-      </td>`;
+        <i class="bi ${
+          petArr[i].dewormed ? "bi-check-circle-fill" : "bi-x-circle-fill"
+        }"></i>
+      </td>
+      <td>
+        <i class="bi ${
+          petArr[i].sterilized ? "bi-check-circle-fill" : "bi-x-circle-fill"
+        }"></i></td>
+      <td>
+        ${new Date(petArr[i].date).getDate()}/${
+      new Date(petArr[i].date).getMonth() + 1
+    }/${new Date(petArr[i].date).getFullYear()}
+      </td>
+      <td>
+        <button 
+          type="button" 
+          class="btn btn-warning" 
+          onclick="editPet('${petArr[i].id}')">Edit
+        </button>
+      </td>
+    `;
     //Trỏ đến vị trí id="tbody"
     document.getElementById(`tbody`).appendChild(row);
   }
@@ -63,7 +73,7 @@ renderPetEdit(petArrEdit);
 
 //////////////////////////
 ////////////////////////////////////////////////////////////////-INSIDE
-//bat su kien click edit
+// bat su kien click edit
 let selectPet = 0;
 
 const editPet = function (petId) {
@@ -76,7 +86,7 @@ const editPet = function (petId) {
   showFormEdit(selectPet);
 };
 
-buttonSubmit.addEventListener("click", function (e) {
+submitBtn.addEventListener("click", function (e) {
   console.log(selectPet);
   e.preventDefault();
   editFormEdit(selectPet);
@@ -118,5 +128,3 @@ const showFormEdit = function (petInfoArrEdit) {
   formInputSterilized.checked = petInfoArrEdit[0].sterilized;
   ////////////////////
 };
-
-
