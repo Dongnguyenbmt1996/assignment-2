@@ -12,10 +12,11 @@ const vaccinatedInput = document.getElementById("input-vaccinated");
 const dewormedInput = document.getElementById("input-dewormed");
 const sterilizedInput = document.getElementById("input-sterilized");
 
-const petArrEdit = getFromStorage("petArr") || [];
 const containerForm = document.getElementById("container-form");
-
 let tableBodyEl = document.getElementById("tbody");
+
+const petArrEdit = getFromStorage("petArr") || [];
+const breedArr = getFromStorage("breedArr") || [];
 
 ///////////////////////////////
 //Hien thi danh sach thu cung
@@ -70,6 +71,27 @@ const renderPetEdit = function (petArr) {
 };
 
 renderPetEdit(petArrEdit);
+
+// Sự kiện chọn vào typeInput
+function renderBreed() {
+  breedInput.innerHTML = "<option>Select Breed</option>";
+  const breedDogs = breedArr.filter((breeds) => breeds.type === "Dog");
+  const breedCats = breedArr.filter((breeds) => breeds.type === "Cat");
+  if (typeInput.value === "Dog") {
+    breedDogs.forEach(function (breeds) {
+      const option = document.createElement("option");
+      option.innerHTML = `${breeds.breed}`;
+      breedInput.appendChild(option);
+    });
+  } else if (typeInput.value === "Cat") {
+    breedCats.forEach(function (breeds) {
+      const option = document.createElement("option");
+      option.innerHTML = `${breeds.breed}`;
+      breedInput.appendChild(option);
+    });
+  }
+}
+typeInput.addEventListener("click", renderBreed);
 
 //////////////////////////
 ////////////////////////////////////////////////////////////////-INSIDE
